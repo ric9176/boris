@@ -16,10 +16,6 @@ describe DockingStation do
 		expect(subject).to respond_to(:dock_bike).with(1).argument
 	end
 
-	it "should respond to method bike" do
-		expect(subject).to respond_to :bikes
-	end
-
 	it "should return the docked bike" do
 		bike = Bike.new
 		subject.dock_bike(bike)
@@ -30,9 +26,19 @@ describe DockingStation do
 		expect {subject.release_bike}.to raise_error 'no bikes'
 	end
 
+	it "has a defauly capacity" do 
+		expect(subject.capacity).to eq DockingStation::DEFAULT_CAPACITY
+	end
+
 	it "raises an error if docking station is full" do 
-		DockingStation::DEFAULT_CAPACITY.times {subject.dock_bike(Bike.new)}
-		expect {subject.dock_bike Bike.new}.to raise_error "station full"
+		subject.capacity.times { subject.dock_bike(Bike.new) }
+		expect { subject.dock_bike Bike.new }.to raise_error "station full"
 	end	
+
+	it 'has a variable capacity' do
+    docking_station = DockingStation.new(50)
+    50.times { docking_station.dock_bike Bike.new }
+    expect{ docking_station.dock_bike Bike.new }.to raise_error 'station full'
+  end
 
 end
