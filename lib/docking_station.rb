@@ -1,7 +1,8 @@
 require_relative 'bike'
+require_relative 'van'
 
 class DockingStation
-	attr_reader :capacity
+	attr_reader :capacity, :broken_bikes
 	
 	DEFAULT_CAPACITY = 20
 
@@ -19,6 +20,11 @@ class DockingStation
 	def dock_bike(bike)
 		raise 'station full' if full?
 		bikes << bike
+	end
+	
+	def van_arrival
+		@broken_bikes = bikes.map{|bike| bike.working? == false}
+		@broken_bikes
 	end
 
 private

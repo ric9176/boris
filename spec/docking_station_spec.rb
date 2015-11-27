@@ -2,6 +2,7 @@
 
 require 'docking_station'
 
+
 describe DockingStation do
 	let(:bike) { double :bike }
 	it "should respond to release_bike method call" do
@@ -39,10 +40,10 @@ describe DockingStation do
 	end	
 
 	it 'has a variable capacity' do
-    docking_station = DockingStation.new(50)
-    50.times { docking_station.dock_bike double(:bike) }
-    expect{ docking_station.dock_bike double(:bike) }.to raise_error 'station full'
-  end
+    	docking_station = DockingStation.new(50)
+    	50.times { docking_station.dock_bike double(:bike) }
+    	expect{ docking_station.dock_bike double(:bike) }.to raise_error 'station full'
+  	end
 
   	
 
@@ -62,10 +63,9 @@ describe DockingStation do
   		expect(subject.release_bike).to eq working_bike
   	end
 
-	
-	
-  
-
-
-
+	it 'Creates a new array of broken bikes' do
+		bike = double(:bike, working?: false, report: false)
+		subject.dock_bike(bike)
+		expect(subject.van_arrival).to eq [bike]
+	end 	
 end
