@@ -12,7 +12,8 @@ class DockingStation
 
 	def release_bike
 		raise 'no bikes' if empty?
-		bikes.pop
+		raise 'Bike is broken, cannot release bike.' if all_broken
+		release
 	end
 
 	def dock_bike(bike)
@@ -20,7 +21,7 @@ class DockingStation
 		bikes << bike
 	end
 
-private	
+private
 
 	attr_reader :bikes
 
@@ -32,5 +33,13 @@ private
 		bikes.empty? ? true : false
 	end
 	
+	def all_broken
+		bikes.all?{|bike| bike.working? == false}
+	end
+
+	def release
+		bikes.delete(bikes.find{|bike| bike.working?})
+	end
+
 
 end
